@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>가계부</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>가게부 관리</h1>
+    <!-- 로그인 영역 -->
+    <div id="loginSection">
+      <h2>로그인</h2>
+      이메일:
+      <input type="email" id="email" />
+        <br />
+
+      비밀번호:
+      <input type="password" name="" id="password" />
+        <br />
+
+      <button>로그인</button>
+        <br />
+    </div>
+    
+      <!-- 로그아웃 영역 -->
+      <div id="logoutSection" style="display: none">
+        <button>로그아웃</button>
+      </div>
+        <br />
+
+        <h2>소비내역 입력</h2>
+      <div id="addSection">
+        날짜:
+        <input type="date" name="" id="date" />
+        <br />
+        지출명:
+        <input type="text" id="description" />
+        <br />
+        카테고리:
+        <select id="category">
+          <option value="식비">식비</option>
+          <option value="교통비">교통비</option>
+          <option value="의류비">의류비</option>
+          <option value="여가">여가</option>
+          <option value="기타">기타</option>
+        </select>
+        <br />
+
+      금액:
+      <input type="number" id="amount" />
+        <br />
+
+      <button>추가</button>
+
+    <h2>소비내역 리스트</h2>
+    <ul id="expenseList"></ul>
+
+    <script>
+      const API_BASE = "https://683935bf6561b8d882af6316.mockapi.io/api/v1/"
+
+      let user = null;
+
+      function login() {
+        const email = document.querySelector("#email").value;
+
+        const password = document.querySelector("#password").value
+
+        fetch(API_BASE + "/users")
+        .then(function(res) {
+          alert("서버에서 사용자 정보를 가져옴")
+          return res.json();
+        })
+        .then(function(users) {
+          alert("JSON으로 변환해서 출력")
+          
+          for(i = 0; i < users.length; i++ ) {
+            
+            
+            if(users[i].user_email === email && users[i].user_pass === password) {
+              user = users[i];
+              
+              alert(JSON.stringify(user))
+
+              localStorage.setItem("user", JSON.stringify(user))
+
+              alert("로그인 성공")
+
+              document.querySelector("#loginSection").style.display = "none"
+              document.querySelector("#logoutSection").style.display = "block"
+
+
+
+              return
+            } 
+          } 
+          alert("아이디와 비밀번호를 확인해 주세요.")
+        })
+      }
+
+      document.querySelector("#loginSection button").onclick = login
+      
+      function logout () {
+        localStorage.removeItem("user");
+
+        user = null;
+
+        document.querySelector("#expenseList").innerHTML = ""
+
+        alert("로그아웃 되었습니다.")
+
+        document.querySelector("#loginSection").style.display = "block"
+        document.querySelector("#logoutSection").style.display = "none"
+      }
+      
+      document.querySelector("#logoutSection button").onclick = logout
+
+     </script> 
+  </body>
+
+</html>

@@ -1,0 +1,21 @@
+input, select, button {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    
+}
+
+button {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+li {
+    background-color: white;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
